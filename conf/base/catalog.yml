@@ -1,0 +1,16 @@
+# Here you can define all your data sets by using simple YAML syntax.
+#
+# Documentation for this file format can be found in the kedro docs under `Accessing data`
+# You can access the kedro docs by running `kedro docs`
+
+2019_HSNCT_overall:
+  type: ExcelLocalDataSet
+  filepath: data/01_raw/2019_HSNCT_overall.xlsx
+  
+raw_2019_all_games:
+  type: ParquetLocalDataSet
+  filepath: data/01_raw/raw_2019_all_games.parquet
+
+2019_all_games:
+  type: ParquetLocalDataSet
+  filepath: data/03_primary/2019_all_games.parquet
