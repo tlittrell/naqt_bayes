@@ -6,7 +6,7 @@
 # Raw
 raw_HSNCT_overall_2019:
   type: ExcelLocalDataSet
-  filepath: data/01_raw/2019_HSNCT_overall.xlsx
+  filepath: data/01_raw/raw_HSNCT_all_games_2019.xlsx
 
 raw_HSNCT_all_games_2019:
   type: ParquetLocalDataSet
@@ -16,4 +16,4 @@ raw_HSNCT_all_games_2019:
 # Primary
 primary_HSNCT_all_games_2019:
   type: ParquetLocalDataSet
-  filepath: data/03_primary/2019_all_games.parquet
+  filepath: data/03_primary/primary_HSNCT_all_games_2019.parquet
