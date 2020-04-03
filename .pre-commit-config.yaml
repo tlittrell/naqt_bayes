@@ -1,0 +1,24 @@
+repos:
+- repo: local
+  hooks:
+    - id: kedro-lint
+      name: "run kedro lint"
+      language: system
+      entry: kedro lint
+      files: ^src/
+      exclude: .txt
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v2.4.0
+  hooks:
+    - id: trailing-whitespace
+    - id: end-of-file-fixer
+    - id: check-yaml
+    - id: check-added-large-files
+    - id: check-ast
+    - id: requirements-txt-fixer
+    - id: debug-statements
+    - id: check-builtin-literals
+    - id: check-case-conflict
+    - id: check-docstring-first
+    - id: detect-private-key
+    - id: mixed-line-ending

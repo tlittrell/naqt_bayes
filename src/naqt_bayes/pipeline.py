@@ -30,8 +30,8 @@
 """
 
 from typing import Dict
-from kedro.pipeline import Pipeline
 
+from kedro.pipeline import Pipeline
 
 
 def create_pipelines(**kwargs) -> Dict[str, Pipeline]:
@@ -45,7 +45,4 @@ def create_pipelines(**kwargs) -> Dict[str, Pipeline]:
 
     """
 
-    return {
-        "__default__": Pipeline([])
-    }
-
+    return {"__default__": Pipeline([])}
