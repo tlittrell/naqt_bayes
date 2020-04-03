@@ -3,14 +3,17 @@
 # Documentation for this file format can be found in the kedro docs under `Accessing data`
 # You can access the kedro docs by running `kedro docs`
 
-2019_HSNCT_overall:
+# Raw
+raw_HSNCT_overall_2019:
   type: ExcelLocalDataSet
   filepath: data/01_raw/2019_HSNCT_overall.xlsx
 
-raw_2019_all_games:
+raw_HSNCT_all_games_2019:
   type: ParquetLocalDataSet
   filepath: data/01_raw/raw_2019_all_games.parquet
 
-2019_all_games:
+
+# Primary
+primary_HSNCT_all_games_2019:
   type: ParquetLocalDataSet
   filepath: data/03_primary/2019_all_games.parquet

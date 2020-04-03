@@ -33,6 +33,8 @@ from typing import Dict
 
 from kedro.pipeline import Pipeline
 
+from naqt_bayes.pipelines.data_engineering import scrape_data_pipeline
+
 
 def create_pipelines(**kwargs) -> Dict[str, Pipeline]:
     """Create the project's pipeline.
@@ -44,5 +46,6 @@ def create_pipelines(**kwargs) -> Dict[str, Pipeline]:
         A mapping from a pipeline name to a ``Pipeline`` object.
 
     """
+    pipeline = scrape_data_pipeline()
 
-    return {"__default__": Pipeline([])}
+    return {"__default__": pipeline}
