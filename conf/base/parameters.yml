@@ -1,0 +1,5 @@
+team_url: "https://www.naqt.com/stats/tournament/team.jsp?team_id="
+
+tournaments:
+  HSNCT_2019: https://www.naqt.com/stats/tournament/standings.jsp?tournament_id=9500
+  HSNCT_2018: https://www.naqt.com/stats/tournament/standings.jsp?tournament_id=8400

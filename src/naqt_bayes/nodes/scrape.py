@@ -1,13 +1,32 @@
-import requests
-from bs4 import BeautifulSoup
+import logging
 import re
 import time
+from typing import Dict
+
 import pandas as pd
+import requests
+from bs4 import BeautifulSoup
+
+log = logging.getLogger(__name__)
 
 
-def scrape_game_data() -> pd.DataFrame:
-    url = "https://www.naqt.com/stats/tournament/standings.jsp?tournament_id=9500"
-    page = requests.get(url)
+def scrape_all_games(conf: Dict) -> pd.DataFrame:
+    tournaments = conf["tournaments"]
+    team_url = conf["team_url"]
+
+    all_tournaments = []
+    for tournament_name, tournament_url in tournaments.items():
+        log.info(f"scraping data for {tournament_name}")
+        df = scrape_game_data(tournament_url, team_url)
+        df["tournament"] = tournament_name
+        all_tournaments.append(df)
+    return pd.concat(all_tournaments)
+
+
+def scrape_game_data(tournament_url: str, team_url: str) -> pd.DataFrame:
+
+    # Get team numbers for every team in the tournament
+    page = requests.get(tournament_url)
     soup = BeautifulSoup(page.content, "html.parser")
     tb = soup.find("table", class_="data-freeze-2 unstriped")
     all_teams = [str(x) for x in tb.find_all("a")]
@@ -17,19 +36,17 @@ def scrape_game_data() -> pd.DataFrame:
         (re.findall(pattern_number, line)[0], re.findall(pattern_team, line)[0])
         for line in all_teams
     ]
+
+    # Scrape games
     result = pd.DataFrame()
     for i, (number, team) in enumerate(number_team):
         if i % 10 == 0:
-            print(i)
-        try:
-            tmp = pd.read_html(
-                "https://www.naqt.com/stats/tournament/team.jsp?team_id=" + number
-            )[2]
-            tmp["team"] = team
-            result = pd.concat([result, tmp])
-            time.sleep(0.05)
-        except:
-            print("{0} {1} {2}".format(i, number, team))
+            log.info(f"scraped {i} teams")
+        tmp = pd.read_html(team_url + number)[2]
+        tmp["team"] = team
+        result = pd.concat([result, tmp])
+        time.sleep(0.01)
+
     return result
 
 
