@@ -1,24 +1,23 @@
 import numpy as np
 import pandas as pd
-from toolz.functoolz import pipe
+from sklego.pandas_utils import log_step
 
 
 def process_game_data(df: pd.DataFrame) -> pd.DataFrame:
-
-    result = pipe(
-        df,
-        rename_features,
-        remove_forfeits,
-        add_features,
-        drop_features,
-        clean_team_names,
-        create_team_indices,
-        remove_duplicate_games,
+    result = (
+        df.pipe(rename_features)
+        .pipe(remove_forfeits)
+        .pipe(add_features)
+        .pipe(drop_features)
+        .pipe(clean_team_names)
+        .pipe(create_team_indices)
+        .pipe(remove_duplicate_games)
     )
 
     return result
 
 
+@log_step
 def rename_features(df: pd.DataFrame) -> pd.DataFrame:
     rename_dict = {
         "P": "team_1_powers",
@@ -39,6 +38,7 @@ def rename_features(df: pd.DataFrame) -> pd.DataFrame:
     return result
 
 
+@log_step
 def convert_types(df: pd.DataFrame) -> pd.DataFrame:
     type_dict = {
         "team_1_powers": np.uint8,
@@ -53,10 +53,12 @@ def convert_types(df: pd.DataFrame) -> pd.DataFrame:
     return df.astype(type_dict)
 
 
+@log_step
 def remove_forfeits(df: pd.DataFrame) -> pd.DataFrame:
     return df.query("score != 'Forfeit'")
 
 
+@log_step
 def add_features(df: pd.DataFrame) -> pd.DataFrame:
     result = (
         df.eval(
@@ -70,11 +72,13 @@ def add_features(df: pd.DataFrame) -> pd.DataFrame:
     return result
 
 
+@log_step
 def drop_features(df: pd.DataFrame) -> pd.DataFrame:
     result = df.drop(["result"], axis=1)
     return result
 
 
+@log_step
 def clean_team_names(df: pd.DataFrame) -> pd.DataFrame:
     def clean_ampersand(x):
         return x.replace("&amp;", "&")
@@ -84,6 +88,7 @@ def clean_team_names(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+@log_step
 def create_team_indices(df: pd.DataFrame) -> pd.DataFrame:
     # Add a unique numeric index for each team
     teams = list(set(df["team_1"].unique()) | set(df["team_2"].unique()))
@@ -102,6 +107,7 @@ def create_team_indices(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+@log_step
 def remove_duplicate_games(df: pd.DataFrame) -> pd.DataFrame:
     # Find and remove duplicate games
     df["teams"] = [tuple(sorted(x)) for x in zip(df["team_1"], df["team_2"])]
