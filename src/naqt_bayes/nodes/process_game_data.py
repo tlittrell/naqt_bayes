@@ -86,8 +86,9 @@ def clean_team_names(df: pd.DataFrame) -> pd.DataFrame:
 
 def create_team_indices(df: pd.DataFrame) -> pd.DataFrame:
     # Add a unique numeric index for each team
+    teams = list(set(df["team_1"].unique()) | set(df["team_2"].unique()))
     team_indices = (
-        pd.DataFrame(list(set(df["team_1"].unique()) | set(df["team_2"].unique())))
+        pd.DataFrame(teams)
         .reset_index()
         .rename({0: "team"}, axis=1)
         .set_index("team")

@@ -12,7 +12,6 @@ raw_HSNCT_all_games_2019:
   type: ParquetLocalDataSet
   filepath: data/01_raw/raw_2019_all_games.parquet
 
-
 # Primary
 primary_HSNCT_all_games_2019:
   type: ParquetLocalDataSet
