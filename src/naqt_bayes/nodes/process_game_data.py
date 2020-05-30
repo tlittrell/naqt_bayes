@@ -5,7 +5,8 @@ from sklego.pandas_utils import log_step
 
 def process_game_data(df: pd.DataFrame) -> pd.DataFrame:
     result = (
-        df.pipe(rename_features)
+        df.copy()
+        .pipe(rename_features)
         .pipe(remove_forfeits)
         .pipe(add_features)
         .pipe(drop_features)
